@@ -3,7 +3,7 @@ from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
 
 # Load your Excel file
-EXCEL = r"C:\Users\lenov\Ankushpandey\rakesh_bot\CAF_TRACE_5_OCT.xlsx"  # Update with your actual file path
+EXCEL = r"CAF_TRACE_5_OCT.xlsx"  # Update with your actual file path
 df = pd.read_excel(EXCEL)
 
 # Function to handle the /start command
