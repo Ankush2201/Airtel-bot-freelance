@@ -1,16 +1,18 @@
 import pandas as pd
-from telegram import Update
 import requests
+from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
 
-url = "https://docs.google.com/spreadsheets/d/198k9MQmMUb87rpHU_THAQ_EY6ZuR63I9/edit?usp=sharing&ouid=114522901496904463719&rtpof=true&sd=true"
-# Load your Excel file
+# Correct Google Drive direct download link
+url = "https://drive.google.com/uc?export=download&id=198k9MQmMUb87rpHU_THAQ_EY6ZuR63I9"
+
+# Download the file from Google Drive
 response = requests.get(url)
 with open('CAF_TRACE_5_OCT.xlsx', 'wb') as file:
     file.write(response.content)
 
-# Load your Excel file
-df = pd.read_excel('CAF_TRACE_5_OCT.xlsx')
+# Specify the engine manually when reading the Excel file
+df = pd.read_excel('CAF_TRACE_5_OCT.xlsx', engine='openpyxl')
 
 # Function to handle the /start command
 async def start(update: Update, context: CallbackContext) -> None:
@@ -46,7 +48,7 @@ async def search(update: Update, context: CallbackContext) -> None:
 def main() -> None:
     # Replace 'YOUR_TOKEN' with your bot's token
     print("Bot started")
-    application = Application.builder().token("7826602538:AAHshlFKWWOZoEWx-CHOZkAYb6XWGL2J6cc").build()
+    application = Application.builder().token("YOUR_TOKEN").build()
 
     # Add command handlers
     application.add_handler(CommandHandler("start", start))
