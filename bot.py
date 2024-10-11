@@ -1,10 +1,16 @@
 import pandas as pd
 from telegram import Update
+import requests
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
 
+url = "https://docs.google.com/spreadsheets/d/198k9MQmMUb87rpHU_THAQ_EY6ZuR63I9/edit?usp=sharing&ouid=114522901496904463719&rtpof=true&sd=true"
 # Load your Excel file
-EXCEL = r"CAF_TRACE_5_OCT.xlsx"  # Update with your actual file path
-df = pd.read_excel(EXCEL)
+response = requests.get(url)
+with open('CAF_TRACE_5_OCT.xlsx', 'wb') as file:
+    file.write(response.content)
+
+# Load your Excel file
+df = pd.read_excel('CAF_TRACE_5_OCT.xlsx')
 
 # Function to handle the /start command
 async def start(update: Update, context: CallbackContext) -> None:
