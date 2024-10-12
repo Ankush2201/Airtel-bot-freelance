@@ -23,8 +23,12 @@ async def search(update: Update, context: CallbackContext) -> None:
     user_input = update.message.text.strip()
 
     # Search for the user input in the specified columns 'FAT' and 'DSL_DESCRIPTION'
-    results = df[df['FAT'].str.contains(user_input, case=False, na=False) | 
-                 df['DSL_DESCRIPTION'].str.contains(user_input, case=False, na=False)]
+    results = df[
+        df['FAT'].str.contains(user_input, case=False, na=False) | 
+        df['DSL_DESCRIPTION'].str.contains(user_input, case=False, na=False) |
+        df['DSL_ID'].str.contains(user_input, case=False, na=False)
+    ]
+
 
     if not results.empty:
         # Convert results to a list of dictionaries
@@ -48,7 +52,7 @@ async def search(update: Update, context: CallbackContext) -> None:
 def main() -> None:
     # Replace 'YOUR_TOKEN' with your bot's token
     print("Bot started")
-    application = Application.builder().token("7826602538:AAHshlFKWWOZoEWx-CHOZkAYb6XWGL2J6cc").build()
+    application = Application.builder().token("YOUR_TOKEN").build()
 
     # Add command handlers
     application.add_handler(CommandHandler("start", start))
