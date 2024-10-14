@@ -29,12 +29,11 @@ async def search(update: Update, context: CallbackContext) -> None:
         df['DSL_ID'].str.contains(user_input, case=False, na=False)
     ]
 
-
     if not results.empty:
         # Convert results to a list of dictionaries
         results_dict = results.to_dict(orient='records')
 
-        # Limit output to two messages
+        # Limit output to four messages
         message_count = 0
         for entry in results_dict:
             # Format each entry as a string
@@ -43,7 +42,7 @@ async def search(update: Update, context: CallbackContext) -> None:
             await update.message.reply_text(response)
             message_count += 1
             
-            # Stop sending messages after two
+            # Stop sending messages after four
             if message_count >= 4:
                 break
     else:
@@ -51,15 +50,25 @@ async def search(update: Update, context: CallbackContext) -> None:
 
 def main() -> None:
     # Replace 'YOUR_TOKEN' with your bot's token
+    TOKEN = "7826602538:AAHshlFKWWOZoEWx-CHOZkAYb6XWGL2J6cc"
+    WEBHOOK_URL = "https://worker-production-6772.up.railway.app/" + TOKEN
+
+    # Set webhook
+    requests.post(f"https://api.telegram.org/bot{TOKEN}/setWebhook", data={"url": WEBHOOK_URL})
+
     print("Bot started")
-    application = Application.builder().token("7826602538:AAHshlFKWWOZoEWx-CHOZkAYb6XWGL2J6cc").build()
+    application = Application.builder().token(TOKEN).build()
 
     # Add command handlers
     application.add_handler(CommandHandler("start", start))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, search))
 
-    # Start the Bot
-    application.run_polling()
+    # Start the bot with webhook
+    application.run_webhook(
+        listen="0.0.0.0",
+        port=int(8080),  # The port your app is running on
+        url_path=TOKEN  # The URL path for the webhook
+    )
 
 if __name__ == '__main__':
     main()
