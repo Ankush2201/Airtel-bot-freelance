@@ -51,10 +51,13 @@ async def search(update: Update, context: CallbackContext) -> None:
 def main() -> None:
     # Replace 'YOUR_TOKEN' with your bot's token
     TOKEN = "7826602538:AAHshlFKWWOZoEWx-CHOZkAYb6XWGL2J6cc"
-    WEBHOOK_URL = "https://worker-production-6772.up.railway.app/" + TOKEN
+    # WEBHOOK_URL = "https://worker-production-6772.up.railway.app/" + TOKEN  # This is incorrect
+
+    # Corrected Webhook URL
+    WEBHOOK_URL = "https://worker-production-6772.up.railway.app/"  # Do not append TOKEN here
 
     # Set webhook
-    requests.post(f"https://api.telegram.org/bot{TOKEN}/setWebhook", data={"url": WEBHOOK_URL})
+    requests.post(f"https://api.telegram.org/bot{TOKEN}/setWebhook", data={"url": WEBHOOK_URL + TOKEN})
 
     print("Bot started")
     application = Application.builder().token(TOKEN).build()
@@ -69,6 +72,7 @@ def main() -> None:
         port=int(8080),  # The port your app is running on
         url_path=TOKEN  # The URL path for the webhook
     )
+
 
 if __name__ == '__main__':
     main()
