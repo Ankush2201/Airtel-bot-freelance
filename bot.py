@@ -16,7 +16,7 @@ df = pd.read_excel('CAF_TRACE_5_OCT.xlsx', engine='openpyxl')
 
 # Function to handle the /start command
 async def start(update: Update, context: CallbackContext) -> None:
-    await update.message.reply_text("Welcome! Send me a value to search.")
+    await update.message.reply_text("Welcome! Send me a value to search ( please input : FAT or DSL_DESCRIPTION or DSL_ID ).")
 
 # Function to handle user input
 async def search(update: Update, context: CallbackContext) -> None:
